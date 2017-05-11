@@ -1,0 +1,175 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+\DeclareRobustCommand{\bitcoin}{{%
+  \normalfont\sffamily
+   \raisebox{-.05ex}{\makebox[.1\width][l]{-\kern-.2em-}}B%
+}}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+How to manage complexity in distributed systems
+\end_layout
+
+\begin_layout Author
+Guillem Borrell, NFQ & UC3M
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+guillemborrell@gmail.com
+\begin_inset Newline newline
+\end_inset
+
+guillem.borrell@nfq.es
+\end_layout
+
+\begin_layout Abstract
+Despite the huge hype about distributed ledgers and the Blockchain, these
+ technologies are not going to change 
+\emph on
+the world
+\emph default
+ in their current form.
+ This article tries to shed some light on the topic, rooting its conclusions
+ on theorems and fundamental aspects about distributed systems, that allow
+ to understand the inherent limitations of this technology.
+ 
+\end_layout
+
+\begin_layout Section
+A new generation of applications.
+\end_layout
+
+\begin_layout Subsection
+A personal background.
+\end_layout
+
+\begin_layout Standard
+About three years ago I was asked to take a look at the performance issues
+ of some applications developed at NFQ Solutions.
+ At that time, I was finishing a PhD on wall bounded turbulence, which is
+ a completely different topic.
+ However, such a long and hard thesis trained me well at applyind the Scientific
+ Method, and allowed me to use very large supercomputers.
+ This means that, before looking at the scalability issues of an enterprise
+ application, I already had a solid theoretical idea of what works and what
+ does not.
+\end_layout
+
+\begin_layout Standard
+When I completed my PhD, I was asked to look closely at those performance
+ and scalability issues, and to find a solution for them.
+ The idea was to use a scientific approach, and to use bleeding edge technologie
+s to design a new architecture for the next generation of applications at
+ NFQ.
+ It was a research project at the beginning, with no guarantees that the
+ outcome of my work would never be fully applied to appications deployed
+ in production.
+\end_layout
+
+\begin_layout Standard
+During my PhD I had to write small programs that were intented to solve
+ a particular problem.
+ The goal was to obtain an accurate result as fast as possible, and the
+ time they spent running was seldom longer that it took to develop them.
+ But I also had to implement very large parallel programs for supercomputers.
+ They are completely different beasts.
+ One of them has consumed hundreds of millions of CPU hours in supercomputers.
+ Those large programs paid almost no attention to architecture, but a lot
+ of effort went on performance optimization.
+ If you spend six months developing but a simulation takes two years to
+ complete, you run out resources.
+ But if you spend one year developing, and the simulation takes one year
+ to run, yo may make it.
+ You may be surprised the amount of theses and papers published with half-cooked
+ results.
+ This is a useful example to understand that, in some particular cases cases,
+ spending some time optimizing the application is a requirement.
+ Now think about some enterprise applications that run for five years or
+ a decade, or that are responsible to asses the financial risk of the full
+ portfolio of a bank.
+\end_layout
+
+\end_body
+\end_document
