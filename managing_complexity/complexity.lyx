@@ -171,5 +171,28 @@ During my PhD I had to write small programs that were intented to solve
  portfolio of a bank.
 \end_layout
 
+\begin_layout Standard
+I had two years to learn about application architecture, which is quite
+ a lot of time compared to the time you have to do some research in a middle-siz
+ed companies.
+ But architecture is a weird topic.
+ It has a lot to do about technology, but there's also some craftmanship.
+ In addition, when you ask an application architect for advice, they usually
+ tell you to repeat what they have previously done.
+ If you know a little about how the difference between correlation and causality
+ affects your daily life, here you have one example.
+ If you repeat a successful strategy, there is no guarantee that you will
+ be successful again.
+ On the other hand, following a strategy that has already failed most likely
+ results in yet another failure.
+ Architecture is a complex discipline that is also quite difficult to learn,
+ unless you are willing to start doing things by yourself, and to learn
+ by your own mistakes.
+\end_layout
+
+\begin_layout Subsection
+Distributed applications and scalability.
+\end_layout
+
 \end_body
 \end_document
