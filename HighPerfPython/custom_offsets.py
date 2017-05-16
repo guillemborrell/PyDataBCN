@@ -21,8 +21,8 @@ class PrecomputedOffset:
         offsets = None
     
     def __init__(self, years=0, months=0, days=0):
-        self.decades = years // 10
-        years_months = months // 12
+        self.decades = int(years/10)
+        years_months = int(months/12)
         self.years = years - 10 * self.decades + years_months
         self.months = months - 12 * years_months
         self.days = days
@@ -66,7 +66,7 @@ class PrecomputedOffset:
         if self.decades == 1:
             return step
             
-        for year in range(self.years-1):
+        for decade in range(self.decades-1):
             idx = self.index_arr.searchsorted(step)
             step = self.decades_arr[idx]
     
