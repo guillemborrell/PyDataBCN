@@ -105,16 +105,17 @@ guillem.borrell@nfq.es
 \end_layout
 
 \begin_layout Abstract
-Despite the huge hype about distributed ledgers and the Blockchain, these
- technologies are not going to change 
-\emph on
-the world
-\emph default
- in their current form.
- This article tries to shed some light on the topic, rooting its conclusions
- on theorems and fundamental aspects about distributed systems, that allow
- to understand the inherent limitations of this technology.
- 
+Two years ago I was asked to develop a framework to ease the development
+ of component-based distributed applications.
+ This was a chance to take a look at the architecture trends and to analyze
+ how to deal with complexity.
+ We already know that complexity can be managed with more and better abstraction
+s, but building abstractions is one of the most complex parts of programming.
+ This article is an opinionated analysis of the patterns that tend to produce
+ successful abstractions, and the path that lead to them.
+ The most relevant conclusion is that, since abstraction layers are a way
+ to communicate with others, it is almost impossible to ignore the social
+ aspects of programming when dealing with them.
 \end_layout
 
 \begin_layout Section
@@ -143,6 +144,8 @@ When I completed my PhD, I was asked to look closely at those performance
  The idea was to use a scientific approach, and to use bleeding edge technologie
 s to design a new architecture for the next generation of applications at
  NFQ.
+ We called that project PALM.
+ The meaning of the acronym is not important.
  It was a research project at the beginning, with no guarantees that the
  outcome of my work would never be fully applied to appications deployed
  in production.
@@ -190,8 +193,240 @@ ed companies.
  by your own mistakes.
 \end_layout
 
+\begin_layout Standard
+This is why I started pylm (http://pylm.readthedocs.org/), a small library
+ to create components and to connect them.
+ Pylm has been relatively successful.
+ It will be put in production by NFQ sooner rather than later in a tool
+ for asset liability management.
+ Pylm, and other tools developed below the umbrella of the PALM project
+ have significantly simplified the way our proprietry applications are built
+ now.
+ But apart from the final product of the process, which is the pylm library,
+ there have been mistakes and good ideas too.
+ 
+\end_layout
+
 \begin_layout Subsection
 Distributed applications and scalability.
+\end_layout
+
+\begin_layout Standard
+Until roughly the beginning of this decade, most applications used the three-tie
+r approach.
+ Your application is divided between the presentation layer, the business
+ layer, and finally, the data access layer.
+ Now we all know that this architecture is not 
+\emph on
+Internet Scale
+\emph default
+, whatever that means.
+ I have a different theory about why this architecture has been abandoned
+ forever.
+\end_layout
+
+\begin_layout Standard
+With time, applications become more and more complex.
+ New data sources, new services, multiple databases, proxies, caches for
+ performance.
+ Layers have become more of a conceptual label than a functional division.
+ We have now the frontend, that runs in the browser or on an app, and the
+ backend.
+ And the world has settled on the fact that the frontend and the backend
+ talk to each other via a RESTful API.
+\end_layout
+
+\begin_layout Standard
+I think that we forgot about the three-tier architecture because we realized
+ that applications are quite organic, and as soon as you need extra performance
+ layers start mixing up.
+\end_layout
+
+\begin_layout Standard
+Another important change is that we no longer integrate libraries.
+ Now we integrate third party components.
+ I don't think that anyone would think nowadays to integrate Lucene to her
+ database.
+ Probably many of you haven't even heard about Lucene.
+ She would dump her data to Elasticsearch, even if that means relying on
+ a third party tool, or duplicating data.
+ Now we even push traces and logs to third party components.
+ Everyone is running on the cloud anyways, and technically the servers are
+ already a third-party owned commodity.
+\end_layout
+
+\begin_layout Standard
+When asking for architecture, all I got were yet another components, or
+ message queue libraries.
+\end_layout
+
+\begin_layout Subsection
+Connecting components
+\end_layout
+
+\begin_layout Standard
+There is a little-known methodology in engineering called axiomatic design.
+ I am an aerospatial engineer, and I know that there are quite a lot of
+ methodologies besides waterfall and agile.
+ Axiomatic design, like any other methodology, presents serious caveats,
+ but they can offer some insight too.
+ The real content of axiomatix design are its two axioms: the independence
+ axiom, and the information axiom.
+\end_layout
+
+\begin_layout Standard
+The former states that a good design maintains the independence between
+ the functional requirements, and the latter says that a good design is
+ the one that minimizes the information content of the design.
+ Note that the two axioms are mutually exclusive in practice.
+ If you go for maximum independence, you probably end up with too much pieces
+ to implement a given functionality.
+\end_layout
+
+\begin_layout Standard
+This new breed of distributed applications, regardless of the architectural
+ paradigm one uses to build them, can be analyzed using these two axioms.
+ We can say that a design that requires less components with a simpler API
+ is less complex too.
+ This is rather obvious, and my intention is to emphasize that these ideas
+ are not mine at all.
+ But the most important thing is that these axioms are useful to tell if
+ our applications are well crafted, but give no advice about how to build
+ them.
+\end_layout
+
+\begin_layout Section
+Abstraction
+\end_layout
+
+\begin_layout Standard
+This is probably a spoiler, but the way we deal with complexity is through
+ abstraction.
+ We pick a complex concept, we agree on the meaning of the concept, and
+ then we assign a name to it.
+ Now we can use this simbol, together with other symbols we agree on to
+ build yet more symbols.
+ This capability of dealing with symbols is probably what makes us unique
+ within the animal kingdom, and we have become very good at it.
+\end_layout
+
+\begin_layout Standard
+Computing has become successively simpler because we have put layers and
+ layers of abstraction.
+ We put pandas dataframes over numpy arrays over memory buffers over an
+ interpreter coded in C that manages bytecode that is translated to machine
+ language.
+ Now we use dataframes like a 
+\emph on
+lingua franca
+\emph default
+ for data analyisis, because symbol that is most useful for peer-to-peer
+ communication is the one with the highest level of abstraction.
+ 
+\end_layout
+
+\begin_layout Standard
+We can apply the two axioms to determine the fitness of the abstractions
+ the following way.
+\end_layout
+
+\begin_layout Standard
+Table
+\end_layout
+
+\begin_layout Standard
+We should always remind that the two axioms are mutually exclusive.
+ If we try to be precise, we may end with a lexicon that is too extense,
+ while brevity and jargon usuall drives to ambiguity.
+\end_layout
+
+\begin_layout Subsection
+Effective abstractions and communication.
+\end_layout
+
+\begin_layout Standard
+Building an API, an abstraction that has to be understood by someone else,
+ requires certain skill.
+ Some people are better than others at 
+\emph on
+explaining
+\emph default
+.
+ And anyone has a different concept of 
+\emph on
+self-explanatory
+\emph default
+.
+ We are undeniably the center of our world, but we are just one user, and
+ things that are 
+\emph on
+self-explanatory 
+\emph default
+to us are not necessarily successful.
+\end_layout
+
+\begin_layout Standard
+Abstractions get better the same way we get smarter.
+ Talking to smart people.
+ I've said that before, and the question I had immediately was, 
+\begin_inset Quotes eld
+\end_inset
+
+what do I do if there isn't anyone smarter than me around?
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Just talk to a frend.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+What do I do of I have no friends?
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Well, there's a solution even in that case.
+ 
+\end_layout
+
+\begin_layout Standard
+Abstractions require domain-specific knowledge, they are hard to get right,
+ and in consequence they are seldom bikeshedded.
+ 
+\end_layout
+
+\begin_layout Standard
+If a feature that has no user cannot be criticized.
+ Don't write it.
+ It may seem great to you, but most likely you will be overengineering your
+ application.
+ I know sometimes is hard to overcome the urge to add some cool feature.
+ If noone asked for it, don't put it.
+ PALM had
+\end_layout
+
+\begin_layout Subsection
+Good abstractions are the ones giving meaning.
+\end_layout
+
+\begin_layout Standard
+Sometimes you need two levels of abstraction.
+ Carlos and his patch.
+\end_layout
+
+\begin_layout Subsection
+Abstractions for survival.
+\end_layout
+
+\begin_layout Standard
+People leaves, changes jobs.
+ Javadoc vs Sphinx, remember that Kernighan and Ritchie wrote a BOOK.
+ Do everything like you wanted to open source them.
+ Write your own thing that matches your philosophy.
+ Learn the lessons for other tools, but do not use them without serious
+ reasons to do that.
 \end_layout
 
 \end_body
