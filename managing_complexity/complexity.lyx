@@ -323,8 +323,34 @@ If tiers are dead, there is no such thing as a business logic layer anymore.
  is not necessarily a good idea.
 \end_layout
 
+\begin_layout Standard
+What it used to be the business logic tier has become a series of modules,
+ or packages.
+ And here is where the Conway's law is important.
+ The Conway's law states that if as a group you design a system, your system
+ will be a map of your group.
+ The social boundaries of any organization will probably become the boundaries
+ of the system.
+ It is a good sociological organization, and we can go for or and against
+ this phenomenon.
+\end_layout
+
+\begin_layout Standard
+My advice is to assume that this will happen, and to organize modules and
+ packages in a way that a single developer is able to implement and document
+ all functionalities.
+ This has a secondary beneficial consequence, is that the developer also
+ develops a sense of ownership and liability for that piece of software.
+ Breaking up things into smaller pieces can cause integration issues, that
+ can be easily solved with subpackaging a namespace package, and a proficient
+ use of setuptools and pip.
+ You can find in github a package called nfq, that is at the same time our
+ namespacke package and a template for subpackage development.
+ Subpackaging seems to work for us, and works for Google too.
+\end_layout
+
 \begin_layout Subsection
-A theory for good an bad applications.
+A theory for not developing bad applications.
 \end_layout
 
 \begin_layout Standard
@@ -340,7 +366,7 @@ There is a little-known methodology in engineering called axiomatic design.
 \begin_layout Standard
 The former states that a good design maintains the independence between
  the functional requirements, and the latter says that a good design is
- the one that minimizes the information content of the design.
+ the one that minimizes its information content.
  Note that the two axioms are mutually exclusive in practice.
  If you go for maximum independence, you probably end up with too much pieces
  to implement a given functionality.
@@ -394,11 +420,125 @@ We can apply the two axioms to determine the fitness of the abstractions
 \end_layout
 
 \begin_layout Standard
-Table
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-We should always remind that the two axioms are mutually exclusive.
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="8cm">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Independence axiom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Abstractions are orthogonal and not ambiguous.
+ They map the functional requirements.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Information axiom
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The requirements are fulfilled with the minimum amount of abstractions possible.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the two axioms are mutually exclusive.
  If we try to be precise, we may end with a lexicon that is too extense,
  while brevity and jargon usuall drives to ambiguity.
 \end_layout
@@ -461,6 +601,8 @@ Abstractions require domain-specific knowledge, they are hard to get right,
  a module, it is highly probable that you get constructive feedback.
  It does not have to be a long meeting, sometimes grabbing a coffee and
  asking a coworker if what you are doing makes sense is enough.
+ In addition, discussing abstractions is much more pleasant than discussing
+ implementations.
  I don't remember an unsuccessful meeting discussing abstractions within
  these past two years.
  Some of them discussed abstractions in pylm, others discussed abstractions
@@ -497,58 +639,214 @@ The business logic of PALM requires to obtain the schedule of payments for
  too hard to change anything without modifying several files and classes.
  Remember, maximum independence, minimum information.
  We throw that away too and we started from scratch.
- The engineer that identified those problems.
- 
+ The engineer that identified those problems is now developing the library.
+ The first thing she did was to sit down with a senior engineer, in this
+ case it was me, and to discuss the new structure of files and classes.
+ We concluded that there was nothing wrong in her schema.
+ Again, we could not conclude that the design was right, but at least it
+ was not obvious that it was wrong.
 \end_layout
 
 \begin_layout Standard
-If a feature that has no user cannot be criticized.
+What if you are an entrepreneur that has no other choice than to work alone?
+ Write documentation.
+ The pylm library was implemented twice.
+ After the first implementation I realized that one engineer that was writing
+ a prototype product with the library was struggling to understand the API.
+ But it was not until I started writing the user documentation that I understood
+ that the implementation was a mess.
+ The reason was that the main design hypothesis made sense at the beginning,
+ but it turned out to be not working at all.
+ I thouht that it was a good idea to make all the components as similar
+ as possible, and to let them self-organize in a way.
+ This automated several parts of the configuration, but the parts that were
+ not automated were too difficult to understand.
+ In any scientific work, when your initial hypotesis is wrong, you start
+ over.
+ It is surprising the mount of things that you realize are completely wrong
+ while writing the documentation.
+ But for that, your documentation must read like a book.
+ Assuming that the whole set of docstrings make useful documentation is
+ just wrong.
+ Explaining what was your intention when you offered some functionality
+ is also important.
+ About one month ago the same engineer was able to send a patch to pylm
+ with almost no help in a couple of hours.
+ He is really smart, but the previous version was so broken that he needed
+ almost a day for that.
+\end_layout
+
+\begin_layout Standard
+Features need users.
+ Otherwise it's just overengineering.
+ No matter how cool some functionality you think it is.
+ If noone needs it, don't add it.
+ One of the reasons why the first version of pylm was so complicated was
+ that it had built-in failure detection and recovery.
+ Components were pinged all the time, and schedulers could know if some
+ worker was faulty.
+ But this kind of failure seldom occurred, because the application did not
+ run in a million servers.
+ The most usual failure was due to wrong input.
+ This failure recovery system added lots of code and complexity, and for
+ most of our application, understanding failure at the application level,
+ not at the system level, was more convenient.
+ If a feature that has no user cannot be criticized.
  Don't write it.
  It may seem great to you, but most likely you will be overengineering your
  application.
  I know sometimes is hard to overcome the urge to add some cool feature.
  If noone asked for it, don't put it.
- PALM had
 \end_layout
 
 \begin_layout Subsection
-Good abstractions are the ones giving meaning.
+Getting better (hopefully) abstractions.
 \end_layout
 
 \begin_layout Standard
-Sometimes you need two levels of abstraction.
- Carlos and his patch.
+Hopefully, after some time designing distributed applications, you get better
+ at it.
+ You build an intuition of what it usually works, and while you may still
+ be wrong sometimes, this happens less and less often.
+\end_layout
+
+\begin_layout Standard
+One of the reasons why the second implementation of pylm has been relatively
+ successful is that contains two API with two different levels of abstraction.
+ I realized that I needed an API to build the framework itself, because
+ complexity was getting out of hand already during development.
+ Now pylm has a low level API, that deals with parts, connections, protocols...
+ And a high level API that allows a user to create components from patterns.
+ This is the kind of designs you get when you get better at abstractions.
+\end_layout
+
+\begin_layout Standard
+One of the best ideas I had during the development of PALM was something
+ called IDN, that stands from Instrument Definition Notation.
+ It is a file format based on JSON, with some added pragmas, that describes
+ how a portfolio must be evaluated.
+ It has a two-page long description of the standard, and it comes with a
+ small interpreter and virtual machine.
+ Abstractions are as useful as the amount of meaning they contain.
+ A file that follows the IDN standard tells PALM how a portfolio must be
+ evaluated, which is a decent amount of meaning.
+ There are very few things that are able to carry as much meaning as a language.
+ Now the word 
+\begin_inset Quotes eld
+\end_inset
+
+IDN
+\begin_inset Quotes erd
+\end_inset
+
+ is more or less common between the the members of the project, and this
+ fact suggests that it has been a good abstraction.
+ It is also useful to separate between frontend (what asks for the valuation)
+ and the backend (what actually makes the computations), since they communicate
+ with IDN files.
+\end_layout
+
+\begin_layout Standard
+After some time into the project we also realized which kind of abstraction
+ pylm meant.
+ In the three-tier architecture, the application is the code that glues
+ the different libraries together.
+ In modern distributed applications the connections between the components
+ are the application.
+ We have already seen that this connection can be managed in multiple ways.
+ A framework for streaming processing, a broker, or a microservice management
+ system is the abstraction for the design of your application now.
+ It gives a definition of what a component is, or a model for connections.
+ In retrospect developing our own library was a good idea, because it settles
+ many details about how the application works.
+ This is the reason why I believe that many companies that started their
+ applications using a streaming framework, or a microservice management
+ system, they will start developing their own after some time.
+ And I think that if they do is because they understand better the abstractions
+ required by their application.
+ The fact that a computational pipeline like the one provided by Storm is
+ completely different than the flat organization of a microservice-based
+ architecture.
+ This is relatively obvious, and it is somewhat curious that this not so
+ tiny detail has been unnoticed by many application architects.
 \end_layout
 
 \begin_layout Subsection
-Abstractions for the long term.
+Thinking about the long term.
 \end_layout
 
 \begin_layout Standard
-People leaves, changes jobs.
- Javadoc vs Sphinx, remember that Kernighan and Ritchie wrote a BOOK.
- Do everything like you wanted to open source them.
- Write your own thing that matches your philosophy.
- Learn the lessons for other tools, but do not use them without serious
- reasons to do that.
- Books, chats, and articles.
- 
+Long term means change.
+ People switch jobs, move to another department, change the goals in their
+ lives...
+ Designing future-proof systems is tremendously complex, and sometimes impossibl
+e.
+ There are catastrophic events, black swans, that may break any possible
+ plan, like one key third-party library dying and going unmaintained.
+ However, there are a set of interesting practices that may work.
 \end_layout
 
 \begin_layout Standard
-Not boring sets of slides.
- You must get better at communicating.
+It's no secret that good documentation is key.
+ But documentation must also make an effort to go beyond the usage of the
+ package, the module, or the application.
+ The documentation must read like a book, and explain the reasons behind
+ the technical decisions that have been made.
+ The manual for the C programming language was a book that could be read
+ from the beginning to the end.
+ I think that Python has done this way better than other ecosystems like
+ Java.
+ Sphinx encourages to write books, in fact, you have to install an addon
+ to embed docstrings in your documentation.
+ The documentation must explain the reason for choosing one abstraction
+ over any other possible choice, and it will be easer for another developer
+ to pick up the work knowing that.
+\end_layout
+
+\begin_layout Standard
+Once you have a plan for your application, it is better to develop your
+ own thing that keeps that plan than steering everything to be able to use
+ a third party tool.
+ Regardless o the coolness of the tool.
+ We were able to develop framework that connects general components in about
+ a year, and yow will be able to do it too.
+ And if you are not successful ad developing a framework, you will probably
+ have a better plan for your application afterwards.
+\end_layout
+
+\begin_layout Standard
+Do packaging right.
+ One of the features that have made Java a successful tool is that you can
+ pack everything in a jar file.
+ Namespace packages, dependencies, pip, repositories...
+ Keeping tens of packages organized is hard, and there shoud be at least
+ one 
+\emph on
+bookeeper
+\emph default
+ that knows what each package is for.
+\end_layout
+
+\begin_layout Standard
+Note that many open source projects embed those practices.
+ Pull requests are usually an educted conversation between a developer and
+ a maintainer.
+ Developers get better pull request after pull request.
+ Many open source communities have now a code of conduct precisely to improve
+ that process.
+\end_layout
+
+\begin_layout Standard
+Finally, the most important conclusion of this essay is that you get better
+ at abstractions when you get better at communicating too.
+ The whole team must make an effort at that.
+ Something that is not clearly explained is as bad as something wrong.
+ Try to avoid slides.
+ Write short articles or handbooks, and give tutorials.
  You probably have heard that whiteboards are imporant, and that you should
  be able to give an impromptu talk in front of a whiteboard.
  I think that it is way better to go a step further, and be able to give
  an impromptu talk without a whiteboard.
-\end_layout
-
-\begin_layout Standard
-Note that open source already embeds these principles.
- Pull Requests are usually an educted conversation between a developer and
- a maintainer.
- Developers get
 \end_layout
 
 \begin_layout Standard
